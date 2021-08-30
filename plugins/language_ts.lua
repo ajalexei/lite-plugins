@@ -1,13 +1,14 @@
 -- mod-version:2 -- lite-xl 2.0
--- Almost identical to JS, with the exception that / shouldn't denote a regex. Current JS syntax highlighter will highlight half the document due to closing tags.
+-- copied from language_js, but added regex highlighting back
 local syntax = require "core.syntax"
 
 syntax.add {
-  files = { "%.jsx$" },
+  files = { "%.ts$" },
   comment = "//",
   patterns = {
     { pattern = "//.-\n",               type = "comment"  },
     { pattern = { "/%*", "%*/" },       type = "comment"  },
+    { pattern = { '/%g', '/', '\\' },   type = "string"   },
     { pattern = { '"', '"', '\\' },     type = "string"   },
     { pattern = { "'", "'", '\\' },     type = "string"   },
     { pattern = { "`", "`", '\\' },     type = "string"   },
@@ -15,6 +16,8 @@ syntax.add {
     { pattern = "-?%d+[%d%.eE]*",       type = "number"   },
     { pattern = "-?%.?%d+",             type = "number"   },
     { pattern = "[%+%-=/%*%^%%<>!~|&]", type = "operator" },
+    { pattern = "interface%s()[%a_][%w_]*", type = {"keyword", "keyword2"} },
+    { pattern = "type%s()[%a_][%w_]*", type = {"keyword", "keyword2"} },
     { pattern = "[%a_][%w_]*%f[(]",     type = "function" },
     { pattern = "[%a_][%w_]*",          type = "symbol"   },
   },
@@ -40,6 +43,7 @@ syntax.add {
     ["get"]        = "keyword",
     ["if"]         = "keyword",
     ["import"]     = "keyword",
+    ["implements"] = "keyword",
     ["in"]         = "keyword",
     ["instanceof"] = "keyword",
     ["let"]        = "keyword",

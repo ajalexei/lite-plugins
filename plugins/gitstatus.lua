@@ -1,4 +1,4 @@
--- mod-version:1 -- lite-xl 1.16
+-- mod-version:2 -- lite-xl 2.0
 local core = require "core"
 local config = require "core.config"
 local style = require "core.style"
@@ -13,13 +13,9 @@ local git = {
 
 
 local function exec(cmd, wait)
-  local tempfile = core.temp_filename()
-  system.exec(string.format("%s > %q", cmd, tempfile))
-  coroutine.yield(wait)
-  local fp = io.open(tempfile)
-  local res = fp:read("*a")
-  fp:close()
-  os.remove(tempfile)
+  local proc = process.start(cmd)
+  proc:wait(wait * 1000)
+	local res = proc:read_stdout()
   return res
 end
 
@@ -28,10 +24,10 @@ core.add_thread(function()
   while true do
     if system.get_file_info(".git") then
       -- get branch name
-      git.branch = exec("git rev-parse --abbrev-ref HEAD", 1):match("[^\n]*")
+      git.branch = exec({"git", "rev-parse", "--abbrev-ref", "HEAD"}, 1):match("[^\n]*")
 
       -- get diff
-      local line = exec("git diff --stat", 1):match("[^\n]*%s*$")
+      local line = exec({"git", "diff", "--stat"}, 1):match("[^\n]*%s*$")
       git.inserts = tonumber(line:match("(%d+) ins")) or 0
       git.deletes = tonumber(line:match("(%d+) del")) or 0
 
