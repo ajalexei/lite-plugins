@@ -5,6 +5,8 @@ local core = require "core"
 local style = require "core.style"
 local config = require "core.config"
 
+config.plugins.fontconfig = { prefix = "" }
+
 --[[
   Example config (put it in user module):
 
@@ -23,25 +25,25 @@ local config = require "core.config"
 
 local function resolve_font(spec)
   local scan_rate = 1 / config.fps
-  local proc = subprocess.start({ "fc-match", "-s", "-f", "%{file}\n", spec }, {
+  local proc = subprocess.start({ config.plugins.fontconfig.prefix .. "fc-match", "-s", "-f", "%{file}\n", spec }, {
     stdin = subprocess.REDIRECT_DISCARD,
     stdout = subprocess.REDIRECT_PIPE,
     stderr = subprocess.REDIRECT_STDOUT
   })
   local prev
   local lines = {}
-  while proc:running() do
+  while true do
     coroutine.yield(scan_rate)
     local buf = proc:read_stdout()
-    if type(buf) == "string" then
-      local last_line_start = 1
-      for line, ln in string.gmatch(buf, "([^\n]-)\n()") do
-        last_line_start = ln
-        if prev then line = prev .. line end
-        table.insert(lines, line)
-      end
-      prev = last_line_start < #buf and string.sub(buf, last_line_start)
+    if not buf then break end
+
+    local last_line_start = 1
+    for line, ln in string.gmatch(buf, "([^\n]-)\n()") do
+      last_line_start = ln
+      if prev then line = prev .. line end
+      table.insert(lines, line)
     end
+    prev = last_line_start < #buf and string.sub(buf, last_line_start)
   end
   if prev then table.insert(lines, prev) end
 

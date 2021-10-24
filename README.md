@@ -63,6 +63,7 @@ Plugin | Description
 [`language_go`](plugins/language_go.lua?raw=1) | Syntax for the [Go](https://golang.org/) programming language
 [`language_hlsl`](plugins/language_hlsl.lua?raw=1) | Syntax for the [HLSL](https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl) programming language
 [`language_hs`](plugins/language_hs.lua?raw=1) | Syntax for the [Haskell](https://www.haskell.org/) programming language
+[`language_ini`](plugins/language_ini.lua?raw=1) | Syntax for [ini](https://en.wikipedia.org/wiki/INI_file) files
 [`language_java`](plugins/language_java.lua?raw=1) | Syntax for the [Java](https://en.wikipedia.org/wiki/Java_(programming_language)) programming language
 [`language_jiyu`](plugins/language_jiyu.lua?raw=1) | Syntax for the [jiyu](https://github.com/machinamentum/jiyu) programming language
 [`language_jsx`](plugins/language_jsx.lua?raw=1) | Syntax for the [JSX](https://reactjs.org/docs/introducing-jsx.html) language for the React framework in JavaScript
@@ -72,6 +73,7 @@ Plugin | Description
 [`language_make`](plugins/language_make.lua?raw=1) | Syntax for the Make build system language
 [`language_meson`](plugins/language_meson.lua?raw=1) | Syntax for the [Meson](https://mesonbuild.com) build system language
 [`language_moon`](plugins/language_moon.lua?raw=1) | Syntax for the [MoonScript](https://moonscript.org) scripting language
+[`language_nginx`](plugins/language_nginx.lua?raw=1) | Syntax for [Nginx](https://www.nginx.com/) config files
 [`language_nim`](plugins/language_nim.lua?raw=1) | Syntax for the [Nim](https://nim-lang.org) programming language
 [`language_objc`](plugins/language_objc.lua?raw=1) | Syntax for the [Objective C](https://en.wikipedia.org/wiki/Objective-C) programming language
 [`language_odin`](plugins/language_odin.lua?raw=1) | Syntax for the [Odin](https://github.com/odin-lang/Odin) programming language
@@ -79,8 +81,11 @@ Plugin | Description
 [`language_php`](plugins/language_php.lua?raw=1) | Syntax for the [PHP](https://php.net) programming language
 [`language_pico8`](plugins/language_pico8.lua?raw=1) | Syntax for [Pico-8](https://www.lexaloffle.com/pico-8.php) cartridge files
 [`language_po`](plugins/language_po.lua?raw=1) | Syntax for [PO](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html) translation files
+[`language_pony`*](https://github.com/MrAnyx/lite-plugin-pony) | Syntax for [Pony](https://www.ponylang.io/) programming language
 [`language_powershell`](plugins/language_powershell.lua?raw=1) | Syntax for [PowerShell](https://docs.microsoft.com/en-us/powershell) scripting language
 [`language_psql`](plugins/language_psql.lua?raw=1) | Syntax for the postgresql database access language
+[`language_r`](plugins/language_R.lua?raw=1) | Syntax for [R](https://www.r-project.org/) scripting language
+[`language_rescript`](plugins/language_rescript.lua?raw=1) | Syntax for the [ReScript](https://rescript-lang.org/) programming language
 [`language_rust`](plugins/language_rust.lua?raw=1) | Syntax for the [Rust](https://rust-lang.org/) programming language
 [`language_ruby`](plugins/language_ruby.lua?raw=1) | Syntax for the [Ruby](https://www.ruby-lang.org/) programming language
 [`language sass`](plugins/language_sass.lua?raw=1) | Syntax for the [Sass](https://sass-lang.com/) CSS preprocessor
@@ -109,6 +114,7 @@ Plugin | Description
 [`motiontrail`](plugins/motiontrail.lua?raw=1) | Adds a motion-trail to the caret *([screenshot](https://user-images.githubusercontent.com/3920290/83256814-085ccb00-a1ab-11ea-9e35-e6633cbed1a9.gif))*
 ~~[`nagbar`](https://github.com/takase1121/lite-nagbar)*~~ | integrated in lite-xl ~~consistent and _beautiful_ confirmation dialogs for lite and lite-xl *([gif](https://raw.githubusercontent.com/takase1121/lite-nagbar/master/assets/preview.gif))*~~
 [`navigate`](plugins/navigate.lua?raw=1) | Allows moving back and forward between document positions, reducing the amount of scrolling
+[`open_ext`](plugins/open_ext.lua?raw=1) | Automatically prompts you if you tried to open a binary file in the editor
 [`openfilelocation`](plugins/openfilelocation.lua?raw=1) | Opens the parent directory of the current file in the file manager
 [`openselected`](plugins/openselected.lua?raw=1) | Opens the selected filename or url
 ~~[`projectmanager`](plugins/projectmanager.lua?raw=1)~~ | Integrated in lite-xl with improvements ~~Save projects and load/reload them quickly~~
