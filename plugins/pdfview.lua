@@ -1,45 +1,33 @@
 -- mod-version:2 -- lite-xl 2.0
 local core = require "core"
+local config = require "core.config"
 local command = require "core.command"
 local keymap = require "core.keymap"
 
 command.add("core.docview", {
   ["pdfview:show-preview"] = function()
-    local av = core.active_view
+    -- The current (La)TeX file and path
+    local texname = core.active_view:get_name()
+    local viewcmd = config.pdfview and config.pdfview.view_command
+    local pdffile = core.active_view:get_filename()
 
--- User's home directory
-    local homedir = ""
+    pdffile = pdffile:gsub("%.tex$", ".pdf")
 
+    -- Windows does not understand/expand the ~ from the get_filename call
     if PLATFORM == "Windows" then
-        homedir = os.getenv("USERPROFILE")
-    else
-        homedir = os.getenv("HOME")
+      pdffile = pdffile:gsub("~", os.getenv("USERPROFILE"))
     end
+    
+    core.log("Opening PDF preview for %s", texname)
 
--- The current (La)TeX file
-    local texfile = av:get_filename()
-    texfile = string.gsub(texfile, '~', homedir)
--- Construct the PDF file name out of the (La)Tex filename
-    local pdffile = "\"" .. string.gsub(texfile, ".tex", ".pdf") .. "\""
--- PDF viewer - is there any provided by the environment
-    local pdfcmd = os.getenv("LITE_PDF_VIEWER")
-
-    core.log("Opening pdf preview for \"%s\"", texfile)
-
-    if pdfcmd ~= nil then
-        system.exec(pdfcmd .. " " .. pdffile)
+    if viewcmd ~= nil then
+      system.exec(viewcmd .. " " .. pdffile)
     elseif PLATFORM == "Windows" then
-        system.exec("start " .. pdffile)
+      system.exec("start " .. pdffile)
     else
-        system.exec(string.format("xdg-open %q", pdffile))
+      system.exec(string.format("xdg-open %q", pdffile))
     end
-
---    core.add_thread(function()
---      coroutine.yield(5)
---      os.remove(htmlfile)
---    end)
   end
 })
-
 
 keymap.add { ["ctrl+shift+v"] = "pdfview:show-preview" }
