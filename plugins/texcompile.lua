@@ -41,20 +41,28 @@ command.add("core.docview", {
     local texpath = common.dirname(core.active_view:get_filename())
     local pdfname = texname:gsub("%.tex$", ".pdf")
 
+    -- Windows does not understand/expand the ~ from the get_filename call
+    if PLATFORM == "Windows" then
+      pdfname = pdfname:gsub("~", os.getenv("USERPROFILE"))
+    end
+
     -- LaTeX compiler as configured in config.texcompile
     local texcmd = config.texcompile and config.texcompile.latex_command
     local viewcmd = config.texcompile and config.texcompile.view_command
 
-    if not texcmd then
+    if texcmd == nil then
       core.log("No LaTeX compiler provided in config.")
     else
       core.log("LaTeX compiler is %s, compiling %s", texcmd, texname)
 
-      console.run {
-        command = string.format("%s %s && %s %s", texcmd, texname, viewcmd, pdfname),
-        cwd = texpath,
-        on_complete = function() core.log("Tex compiling command terminated.") end
-      }
+
+
+
+--      console.run {
+--        command = string.format("%s %s && %s %s", texcmd, texname, viewcmd, pdfname),
+--        cwd = texpath,
+--        on_complete = function() core.log("Tex compiling command terminated.") end
+--      }
     end
   end,
 })
