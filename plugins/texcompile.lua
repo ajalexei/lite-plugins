@@ -1,4 +1,5 @@
 -- mod-version:2 -- lite-xl 2.0
+
 local core = require "core"
 local config = require "core.config"
 local command = require "core.command"
@@ -42,27 +43,46 @@ command.add("core.docview", {
     local pdfname = texname:gsub("%.tex$", ".pdf")
 
     -- Windows does not understand/expand the ~ from the get_filename call
+    local userdir = ""
+
     if PLATFORM == "Windows" then
-      pdfname = pdfname:gsub("~", os.getenv("USERPROFILE"))
+      userdir = os.getenv("USERPROFILE")
+    else
+      userdir = os.getenv("HOME")
     end
+
+    texpath = texpath:gsub("~", userdir)
+    pdfname = pdfname:gsub("~", userdir)
 
     -- LaTeX compiler as configured in config.texcompile
     local texcmd = config.texcompile and config.texcompile.latex_command
     local viewcmd = config.texcompile and config.texcompile.view_command
+--    local quiet = config.texcompile and config.texcompile.quiet
+
+--    if quiet == nil then
+--      quiet = true
+--    end
+
+    local runcmd = ""
 
     if texcmd == nil then
       core.log("No LaTeX compiler provided in config.")
+--    elseif quiet then
+--      core.log("LaTeX compiler is %s, compiling %s", texcmd, texname)
     else
       core.log("LaTeX compiler is %s, compiling %s", texcmd, texname)
 
+      if viewcmd == nil then
+        runcmd = string.format("%s %s", texcmd, texname)
+      else
+        runcmd = string.format("%s %s && %s %s", texcmd, texname, viewcmd, pdfname)
+      end
 
-
-
---      console.run {
---        command = string.format("%s %s && %s %s", texcmd, texname, viewcmd, pdfname),
---        cwd = texpath,
---        on_complete = function() core.log("Tex compiling command terminated.") end
---      }
+      console.run {
+        command = runcmd,
+        cwd = texpath,
+        on_complete = function() core.log("Tex compiling command terminated.") end
+      }
     end
   end,
 })
