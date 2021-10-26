@@ -1,4 +1,5 @@
 -- mod-version:2 -- lite-xl 2.0
+
 local core = require "core"
 local config = require "core.config"
 local command = require "core.command"
@@ -17,7 +18,7 @@ command.add("core.docview", {
     if PLATFORM == "Windows" then
       pdffile = pdffile:gsub("~", os.getenv("USERPROFILE"))
     end
-    
+
     core.log("Opening PDF preview for %s", texname)
 
     if viewcmd ~= nil then
