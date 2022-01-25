@@ -2,6 +2,7 @@
 local syntax = require "core.syntax"
 
 syntax.add {
+  name = "Shell script",
   files = { "%.sh$" },
   headers = "^#!.*bin.*sh\n",
   comment = "#",
@@ -9,6 +10,7 @@ syntax.add {
     -- $# is a bash special variable and the '#' shouldn't be interpreted
     -- as a comment.
     { pattern = "$[%a_@*#][%w_]*",        type = "keyword2" },
+    { pattern = "${.-}",                  type = "keyword2" },
     { pattern = "#.*\n",                  type = "comment"  },
     { pattern = [[\.]],                   type = "normal"   },
     { pattern = { '"', '"', '\\' },       type = "string"   },
@@ -17,7 +19,6 @@ syntax.add {
     { pattern = "%f[%w_][%d%.]+%f[^%w_]", type = "number"   },
     { pattern = "[!<>|&%[%]=*]",          type = "operator" },
     { pattern = "%f[%S]%-[%w%-_]+",       type = "function" },
-    { pattern = "${.-}",                  type = "keyword2" },
     { pattern = "[%a_][%w_]*",            type = "symbol"   },
   },
   symbols = {
